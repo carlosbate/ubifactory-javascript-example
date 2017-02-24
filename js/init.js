@@ -1,7 +1,7 @@
 (function($){
     $(function() {
 
-        const HOST = 'localhost';
+        const HOST = '34.248.153.223';
         const PORT = '8989';
         const URL = 'http://' + HOST + ':' + PORT;
 
@@ -42,20 +42,28 @@
             return t;
         };
 
+        // UI stuff
         populateUbiInfo = function(){
             $('#ubi-info').html('<div class="row" id="cp-heatmaps"> <h3 class="center">Component Planes</h3> </div> <div class="row" id="hit-umat-heatmap"> <h3 class="center">Hit-Histogram & U-Mat</h3> </div> <div class="row" id="prod-div-heatmap"> <h3 class="center">Product & Division</h3> </div>');
         };
 
+        // UI stuff
         loadingAnimation = function(){
             $('#ubi-info').html('<div class="center" style="margin-top: 25%;"><div class="preloader-wrapper big active"> <div class="spinner-layer spinner-blue"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div> <div class="spinner-layer spinner-red"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div> <div class="spinner-layer spinner-yellow"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div> <div class="spinner-layer spinner-green"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div></div></div> ');
         };
 
-        drawHeatmap = function (cp, title, elem) {
+        /**
+         * Draws an heatmap for the given @input with the given @title in the given elemnt @elem
+         * @param input - data to be plotted
+         * @param title - title of the heatmap
+         * @param elem - HTML element to append to
+         */
+        drawHeatmap = function (input, title, elem) {
             var values = [];
-            for (i = 0; i < cp.length; i += 20) {
+            for (i = 0; i < input.length; i += 20) {
                 var res = [];
                 for (k = 0; k < 20; k++)
-                    res.push(cp[i + k]);
+                    res.push(input[i + k]);
                 values.push(res);
             }
             var layout = {
@@ -100,6 +108,9 @@
             "normalization": {"type": "NONE"}
         };
 
+        /**
+         * Creates an UbiSOM instance  by sending a POST request
+         */
         createUbi = function () {
             $.post(URL + '/ubis', JSON.stringify(newUbi))
                 .done(function (data) {
@@ -109,6 +120,9 @@
                 });
         }
 
+        /**
+         * Deletes the UbiSOM instance by sending a DELETE request
+         */
         deleteUbi = function() {
             $.ajax({
                 url: URL + '/ubis/' + ubiId,
@@ -119,10 +133,9 @@
             });
         }
 
-        getUbiId = function(){
-            console.log(ubiId)
-        };
-
+        /**
+         * Sends data to the UbiSOM instance
+         */
         patchUbiSOM = function (id) {
             $.getJSON('data/data_quad.json', function(json) {
                 $.ajax({
@@ -144,11 +157,15 @@
             });
         };
 
+        //UI function
         feed = function() {
             patchUbiSOM(ubiId);
         };
 
 
+        /**
+         * Gets the UbiSOM instance underlying data
+         */
         getUbiData = function(id) {
             $.getJSON(URL + '/ubis/' + id + '/data', function(json) {
 
@@ -197,6 +214,7 @@
             });
         };
 
+        //UI function
         updateGraph = function(){
             redraw = true;
             loadingAnimation();
