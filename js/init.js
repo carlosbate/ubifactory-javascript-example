@@ -1,7 +1,9 @@
 (function($){
   $(function() {
 
-      const host = 'localhost';
+      const HOST = 'localhost';
+      const PORT = '8989';
+      const URL = 'http://' + HOST + ':' + PORT;
 
       var ubiId, redraw = false;
 
@@ -99,7 +101,7 @@
       };
 
       createUbi = function () {
-          $.post('http://' + host + ':8989/ubis', JSON.stringify(newUbi))
+          $.post(URL + '/ubis', JSON.stringify(newUbi))
               .done(function (data) {
                   ubiId = data.id;
                   loadingAnimation();
@@ -109,7 +111,7 @@
 
       deleteUbi = function() {
           $.ajax({
-              url: 'http://' + host + ':8989/ubis/' + ubiId,
+              url: URL + '/ubis/' + ubiId,
               type: 'DELETE',
               success: function(result) {
                   $('#ubi-info').html('<h4>Create a new UbiSOM</h4>');
@@ -124,7 +126,7 @@
       patchUbiSOM = function (id) {
           $.getJSON('data/data_quad.json', function(json) {
               $.ajax({
-                  url: 'http://' + host + ':8989/ubis/' + id,
+                  url: URL + '/ubis/' + id,
                   type: 'PATCH',
                   processData: false,
                   contentType : 'application/json',
@@ -148,7 +150,7 @@
 
 
       getUbiData = function(id) {
-          $.getJSON('http://' + host + ':8989/ubis/' + id + '/data', function(json) {
+          $.getJSON(URL + '/ubis/' + id + '/data', function(json) {
 
               populateUbiInfo();
 
