@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Component Planes</title>
     <script type="text/javascript" src="http://d3js.org/d3.v3.js"></script>
     <script type="text/javascript" src="http://d3js.org/colorbrewer.v1.min.js"></script>
@@ -16,30 +17,118 @@
 <body>
 <nav>
     <div class="nav-wrapper grey darken-3">
-        <a class="brand-logo">&nbsp;&nbsp;&nbsp; UbiFactory Service Quad Example</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <a class="brand-logo center hide-on-small-and-down">&nbsp;&nbsp;&nbsp; UbiFactory Service Example</a>
+        <a class="brand-logo hide-on-med-and-up">&nbsp;&nbsp;&nbsp; UbiFactory Example</a>
+        <!--<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
             <li><a class="waves-effect waves-light btn light-green" onclick="createUbi()">Create</a></li>
             <li><a class="waves-effect waves-light btn red lighten-2" onclick="deleteUbi()">Delete</a></li>
             <li><a class="waves-effect waves-light btn orange lighten-2" onclick="feed()">Feed</a></li>
             <li><a class="waves-effect waves-light btn light-blue" onclick="updateGraph()">Refresh</a></li>
         </ul>
-    </div>
-
-    <div class="fixed-action-btn toolbar">
-        <a class="btn-floating btn-large grey darken-3">
-            <i class="large material-icons">mode_edit</i>
-        </a>
-        <ul>
-            <li class="waves-effect waves-light btn light-green"><a onclick="createUbi()">Create</a></li>
-            <li class="waves-effect waves-light btn red lighten-2"><a onclick="deleteUbi()">Delete</a></li>
-            <li class="waves-effect waves-light btn orange lighten-2"><a onclick="feed()">Feed</a></li>
-            <li class="waves-effect waves-light btn light-blue"><a onclick="updateGraph()">Refresh</a></li>
+        <ul class="side-nav grey darken-3" id="mobile-demo">
+            <li><br><a class="waves-effect waves-light btn light-green" onclick="createUbi()">Create</a></li>
+            <li><a class="waves-effect waves-light btn red lighten-2" onclick="deleteUbi()">Delete</a></li>
+            <li><a class="waves-effect waves-light btn orange lighten-2" onclick="feed()">Feed</a></li>
+            <li><a class="waves-effect waves-light btn light-blue" onclick="updateGraph()">Refresh</a></li>
         </ul>
+        -->
     </div>
 </nav>
 
+<div class="fixed-action-btn toolbar">
+    <a class="btn-floating btn-large grey darken-3">
+        <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+        <li class="waves-effect waves-light btn light-green"><a onclick="createUbi()">Create</a></li>
+        <li class="waves-effect waves-light btn red lighten-2"><a onclick="deleteUbi()">Delete</a></li>
+        <li class="waves-effect waves-light btn orange lighten-2"><a onclick="feed()">Feed</a></li>
+        <li class="waves-effect waves-light btn light-blue"><a onclick="updateGraph()">Refresh</a></li>
+    </ul>
+</div>
+
 
 <div class="container">
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <h4>Choose a HSOM Node:</h4>
+            <select id="ubi-picker">
+            </select>
+            <a class="waves-effect waves-light btn light-green" href="#create-ubi-modal">Create</a>
+
+            <!-- Modal of "Create UbiSOM" -->
+            <div id="create-ubi-modal" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h4>Create a new HSOM Node</h4>
+                    <div class="input-field col s6">
+                        <input placeholder="Insert the desired name" id="ubi-name" type="text" class="validate">
+                        <label for="ubi-name">Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="CSV format, e.g.: First, Second" id="ubi-weight-labels" type="text" class="validate">
+                        <label for="ubi-weight-labels">Weigh Labels</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Width" id="ubi-width" type="number" class="validate" value="40">
+                        <label for="ubi-width">Width</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Height" id="ubi-height" type="number" class="validate" value="20">
+                        <label for="ubi-height">Height</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Dimensionality" id="ubi-dim" type="number" class="validate"  value="2">
+                        <label for="ubi-dim">Dimensionality</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Alpha-i" id="ubi-alpha-i" type="number" class="validate"  value="0.1">
+                        <label for="ubi-alpha-i">Alpha-i</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Alpha-f" id="ubi-alpha-f" type="number" class="validate"  value="0.08">
+                        <label for="ubi-alpha-f">Alpha-f</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Sigma-i" id="ubi-sigma-i" type="number" class="validate"  value="0.6">
+                        <label for="ubi-sigma-i">Sigma-i</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Sigma-f" id="ubi-sigma-f" type="number" class="validate"  value="0.2">
+                        <label for="ubi-sigma-f">Sigma-f</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Beta Value" id="ubi-beta-value" type="number" class="validate"  value="0.7">
+                        <label for="ubi-beta-value">Beta Value</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat " onclick="createUbi()">Create</a>
+                </div>
+            </div>
+            <!-- end of modal -->
+
+            <a class="waves-effect waves-light btn red lighten-2" onclick="deleteUbi()">Delete</a>
+            <a class="waves-effect waves-light btn light-blue" onclick="getAllUbis()">Refresh List</a>
+            <a class="waves-effect waves-light btn black" onclick="getNode()">View HSOM Node</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12 m4">
+            <h4>Choose a dataset:</h4>
+            <select id="dataset-picker">
+                <option value="" disabled selected>No dataset selected</option>
+                <option value="1">Isosceles Triangle</option>
+                <option value="2">Right Triangle</option>
+                <option value="3">Square</option>
+                <option value="4">Diamond</option>
+                <option value="5">Pentagon</option>
+                <option value="6">Hexagon</option>
+            </select>
+            <a class="waves-effect waves-light btn orange lighten-2" onclick="feed()">Feed</a>
+            <a class="waves-effect waves-light btn light-blue" onclick="updateGraph()">Refresh Graphics</a>
+        </div>
+    </div>
     <br>
     <div id="ubi-info">
         <div class="center"></div>
